@@ -6,9 +6,11 @@ import {
   Tooltip,
   Spinner,
   Pane,
-  Paragraph
+  Paragraph,
+  SideSheet
 } from "evergreen-ui";
-import { getHeroes } from "../../redux/actions";
+import Details from "./details";
+import { getHeroes, showSidePane } from "../../redux/actions";
 import { connect } from "react-redux";
 import StarRatings from "react-star-ratings";
 import Capitalize from "../../utils";
@@ -48,8 +50,22 @@ class List extends Component {
   };
 
   render() {
+    this.showSidePane = this.props.showSidePane.bind(this);
     return (
       <div>
+        <SideSheet
+          isShown={this.props.isShow}
+          onCloseComplete={() => this.showSidePane(!this.props.isShow)}
+          containerProps={{
+            display: "flex",
+            flex: "1",
+            flexDirection: "column"
+          }}
+        >
+          <Pane zIndex={1} flexShrink={0} elevation={0} backgroundColor="white">
+            <Details />
+          </Pane>
+        </SideSheet>
         {this.props.loading ? (
           <Pane
             display="flex"
@@ -75,6 +91,7 @@ class List extends Component {
               key={hero.id}
             >
               <Avatar
+                onClick={() => this.showSidePane(this.props.isShow)}
                 src={hero.images.md}
                 name={hero.name}
                 size={120}
@@ -98,11 +115,12 @@ class List extends Component {
 function mapToStateToProps(state) {
   return {
     loading: state.loading,
-    heroes: state.heroes.slice(0, 20)
+    heroes: state.heroes.slice(0, 20),
+    isShow: state.isShow
   };
 }
 
 export default connect(
   mapToStateToProps,
-  { getHeroes }
+  { getHeroes, showSidePane }
 )(List);

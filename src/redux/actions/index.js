@@ -1,4 +1,4 @@
-import { GET_HEROES, GET_HERO, LOAD_DATA } from "../constants";
+import { GET_HEROES, GET_HERO, LOAD_DATA, SHOW_DETAIL } from "../constants";
 
 export function getHeroes() {
   return function(dispatch) {
@@ -9,4 +9,11 @@ export function getHeroes() {
         return dispatch({ type: GET_HEROES, payload: json });
       });
   };
+}
+
+export function showSidePane( payload ){
+  return {
+    type: SHOW_DETAIL,
+    payload
+  }
 }
