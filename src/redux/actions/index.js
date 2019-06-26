@@ -1,8 +1,14 @@
-import { GET_HEROES, GET_HERO, LOAD_DATA, SHOW_DETAIL } from "../constants";
+import {
+  GET_HEROES,
+  GET_HERO,
+  LOAD_DATA,
+  SHOW_DETAIL,
+  HERO_SELECTED
+} from "../constants";
 
 export function getHeroes() {
   return function(dispatch) {
-    dispatch({ type: LOAD_DATA })
+    dispatch({ type: LOAD_DATA });
     return fetch("https://akabab.github.io/superhero-api/api/all.json")
       .then(response => response.json())
       .then(json => {
@@ -11,9 +17,28 @@ export function getHeroes() {
   };
 }
 
-export function showSidePane( payload ){
+export function getHero(heroID) {
+  return function(dispatch) {
+    return fetch(
+      "https://akabab.github.io/superhero-api/api/id/" + heroID + ".json"
+    )
+      .then(response => response.json())
+      .then(json => {
+        return dispatch({ type: GET_HERO, payload: json });
+      });
+  };
+}
+
+export function selectedHero(payload){
+  return{
+    type: HERO_SELECTED,
+    payload
+  }
+}
+
+export function showSidePane(payload) {
   return {
     type: SHOW_DETAIL,
     payload
-  }
+  };
 }

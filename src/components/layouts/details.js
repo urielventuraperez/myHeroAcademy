@@ -1,20 +1,18 @@
 import React, { Component } from "react";
-import {
-  Card,
-  Heading,
-  Tablist,
-  Tab,
-  Pane,
-  Paragraph
-} from "evergreen-ui";
+import { Card, Heading, Tablist, Tab, Pane, Paragraph } from "evergreen-ui";
+import { connect } from "react-redux";
+import { getHero } from "../../redux/actions";
 
 class Details extends Component {
   constructor() {
     super();
     this.state = {
-      isShown: false,
       selectedIndex: 0
     };
+  }
+
+  componentDidMount(){
+    this.props.getHero(14);
   }
 
   render() {
@@ -53,9 +51,21 @@ class Details extends Component {
             <Heading>Some content</Heading>
           </Card>
         </Pane>
+        { this.props.hero.map( detail => (
+          <li>{ detail.name }</li>
+        ) ) }
       </div>
     );
   }
 }
 
-export default Details;
+function mapStateToProps(state){
+  return {
+    hero: state.hero
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { getHero }
+)(Details);

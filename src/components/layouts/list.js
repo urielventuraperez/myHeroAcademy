@@ -10,7 +10,7 @@ import {
   SideSheet
 } from "evergreen-ui";
 import Details from "./details";
-import { getHeroes, showSidePane } from "../../redux/actions";
+import { getHeroes, showSidePane, selectedHero } from "../../redux/actions";
 import { connect } from "react-redux";
 import StarRatings from "react-star-ratings";
 import Capitalize from "../../utils";
@@ -51,6 +51,7 @@ class List extends Component {
 
   render() {
     this.showSidePane = this.props.showSidePane.bind(this);
+    this.selectedHero = this.props.selectedHero.bind(this);
     return (
       <div>
         <SideSheet
@@ -91,7 +92,7 @@ class List extends Component {
               key={hero.id}
             >
               <Avatar
-                onClick={() => this.showSidePane(this.props.isShow)}
+                onClick={() =>  this.showSidePane(this.props.isShow) && this.selectedHero(hero.id)}
                 src={hero.images.md}
                 name={hero.name}
                 size={120}
@@ -116,11 +117,12 @@ function mapToStateToProps(state) {
   return {
     loading: state.loading,
     heroes: state.heroes.slice(0, 20),
-    isShow: state.isShow
+    isShow: state.isShow,
+    heroSelect: state.heroSelect,
   };
 }
 
 export default connect(
   mapToStateToProps,
-  { getHeroes, showSidePane }
+  { getHeroes, showSidePane, selectedHero }
 )(List);
