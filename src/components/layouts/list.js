@@ -1,12 +1,51 @@
 import React, { Component } from "react";
-import { Card, Text, Avatar, Tooltip, Spinner, Pane } from "evergreen-ui";
+import {
+  Card,
+  Text,
+  Avatar,
+  Tooltip,
+  Spinner,
+  Pane,
+  Paragraph
+} from "evergreen-ui";
 import { getHeroes } from "../../redux/actions";
 import { connect } from "react-redux";
+import StarRatings from "react-star-ratings";
+import Capitalize from "../../utils";
+
+const MAX_STAR_LEVEL = 5;
+const MAX_POWER_LEVEL = 100;
 
 class List extends Component {
   componentDidMount() {
     this.props.getHeroes();
   }
+
+  getPowerLevel = level => {
+    return level * (MAX_STAR_LEVEL / MAX_POWER_LEVEL);
+  };
+
+  getPowerStats = powerStats => {
+    const level = Math.max.apply(null, Object.values(powerStats));
+    const power = Object.keys(powerStats).find(
+      key => powerStats[key] === level
+    );
+    return (
+      <Pane padding={20} alignItems="center" justifyContent="center">
+        <Paragraph size={500} marginTop="default" marginBottom="10px">
+          {Capitalize(power)}
+        </Paragraph>
+        <StarRatings
+          rating={this.getPowerLevel(level)}
+          starDimension="20px"
+          starRatedColor="rgba(16, 112, 202, 0.47)"
+          starEmptyColor="#E4E7EB"
+          numberOfStars={MAX_STAR_LEVEL}
+          name="rating"
+        />
+      </Pane>
+    );
+  };
 
   render() {
     return (
@@ -35,15 +74,18 @@ class List extends Component {
               flexDirection="column"
               key={hero.id}
             >
-              <Tooltip content={hero.slug}>
-                <Avatar
-                  src={hero.images.md}
-                  name={hero.name}
-                  size={120}
-                  marginBottom={30}
-                />
+              <Avatar
+                src={hero.images.md}
+                name={hero.name}
+                size={120}
+                marginBottom={30}
+              />
+              <Tooltip
+                content={this.getPowerStats(hero.powerstats)}
+                appearance="card"
+              >
+                <Text>{hero.name}</Text>
               </Tooltip>
-              <Text>{hero.name}</Text>
               <Text size={300}>{hero.biography.fullName}</Text>
             </Card>
           ))
