@@ -12,7 +12,10 @@ export function getHeroes() {
     return fetch("https://akabab.github.io/superhero-api/api/all.json")
       .then(response => response.json())
       .then(json => {
-        return dispatch({ type: GET_HEROES, payload: json });
+        return dispatch({
+          type: GET_HEROES,
+          payload: json.sort(() => 0.5 - Math.random()).slice(0, 30)
+        });
       });
   };
 }
@@ -29,11 +32,11 @@ export function getHero(heroID) {
   };
 }
 
-export function selectedHero(payload){
-  return{
+export function selectedHero(payload) {
+  return {
     type: HERO_SELECTED,
     payload
-  }
+  };
 }
 
 export function showSidePane(payload) {

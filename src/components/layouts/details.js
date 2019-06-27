@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Heading, Pane, Avatar, Paragraph } from "evergreen-ui";
+import { Heading, Pane, Avatar, Paragraph } from "evergreen-ui";
 import { connect } from "react-redux";
 import { getHero } from "../../redux/actions";
 

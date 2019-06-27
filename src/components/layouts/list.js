@@ -82,8 +82,8 @@ class List extends Component {
               elevation={3}
               float="left"
               backgroundColor="white"
-              width={400}
-              height={240}
+              width={320}
+              height={220}
               margin={24}
               display="flex"
               justifyContent="center"
@@ -119,7 +119,7 @@ class List extends Component {
 function mapToStateToProps(state) {
   return {
     loading: state.loading,
-    heroes: state.heroes.slice(0, 20),
+    heroes: state.heroes,
     isShow: state.isShow,
     heroSelect: state.heroSelect
   };

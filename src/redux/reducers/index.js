@@ -23,7 +23,6 @@ function reducer(state = initialState, action) {
           }
     case GET_HEROES:
       return Object.assign(
-        {},
         { ...state, loading: false },
         {
           heroes: [...state.heroes.concat(action.payload)]
