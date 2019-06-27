@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Heading, Tablist, Tab, Pane, Paragraph } from "evergreen-ui";
+import { Card, Heading, Pane, Avatar, Paragraph } from "evergreen-ui";
 import { connect } from "react-redux";
 import { getHero } from "../../redux/actions";
 
@@ -11,7 +11,7 @@ class Details extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.getHero(this.props.heroSelect);
   }
 
@@ -20,50 +20,95 @@ class Details extends Component {
       <div>
         <Pane zIndex={1} flexShrink={0} elevation={0} backgroundColor="white">
           <Pane padding={16} borderBottom="muted">
-            <Heading size={600}>Title</Heading>
-            <Paragraph size={400} color="muted">
-              Optional description or sub title
-            </Paragraph>
-          </Pane>
-          <Pane display="flex" padding={8}>
-            <Tablist>
-              {["Traits", "Event History", "Identities"].map((tab, index) => (
-                <Tab
-                  key={tab}
-                  isSelected={this.state.selectedIndex === index}
-                  onSelect={() => this.setState({ selectedIndex: index })}
-                >
-                  {tab}
-                </Tab>
-              ))}
-            </Tablist>
+            {this.props.hero.map(detail => (
+              <Pane key={detail.id}>
+                <Avatar
+                  src={detail.images.lg}
+                  name="Jeroen Ransijn"
+                  size={220}
+                />
+                <Heading size={600}>{detail.name}</Heading>
+                <Heading size={400} color="muted">
+                  {detail.biography.publisher}
+                </Heading>
+                <Pane clearfix>
+                  <Pane
+                    elevation={0}
+                    float="left"
+                    backgroundColor="white"
+                    width={200}
+                    height={120}
+                    margin={24}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    flexDirection="column"
+                  >
+                    <Heading>Appearance</Heading>
+                    <Paragraph>{detail.appearance.gender}</Paragraph>
+                  </Pane>
+                  <Pane
+                    elevation={0}
+                    float="left"
+                    backgroundColor="white"
+                    width={200}
+                    height={120}
+                    margin={24}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    flexDirection="column"
+                  >
+                    <Heading>Biography</Heading>
+                    <Paragraph>{detail.biography.fullName}</Paragraph>
+                    <Paragraph>{detail.biography.firstAppearance}</Paragraph>
+                  </Pane>
+                  <Pane
+                    elevation={0}
+                    float="left"
+                    backgroundColor="white"
+                    width={200}
+                    height={120}
+                    margin={24}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    flexDirection="column"
+                  >
+                    <Heading>Work</Heading>
+                    <Paragraph>{detail.work.base}</Paragraph>
+                  </Pane>
+                  <Pane
+                    elevation={0}
+                    float="left"
+                    backgroundColor="white"
+                    width={200}
+                    height={120}
+                    margin={24}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    flexDirection="column"
+                  >
+                    <Heading>Connections</Heading>
+                    <Paragraph>{detail.connections.relative}</Paragraph>
+                    <Paragraph>{detail.connections.groupAffiliation}</Paragraph>
+                  </Pane>
+                </Pane>
+              </Pane>
+            ))}
           </Pane>
         </Pane>
-        <Pane flex="1" overflowY="scroll" background="tint1" padding={16}>
-          <Card
-            backgroundColor="white"
-            elevation={0}
-            height={240}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Heading>Some content</Heading>
-          </Card>
-        </Pane>
-        { this.props.hero.map( detail => (
-          <div key={ detail.id }><li>{ detail.name }</li></div>
-        ) ) }
       </div>
     );
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
     hero: state.hero,
     heroSelect: state.heroSelect
-  }
+  };
 }
 
 export default connect(
