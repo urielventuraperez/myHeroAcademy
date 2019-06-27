@@ -19,7 +19,7 @@ function reducer(state = initialState, action) {
       };
     case HERO_SELECTED:
         return {...state,
-            heroSelect: state.heroSelect
+            heroSelect: action.payload
           }
     case GET_HEROES:
       return Object.assign(

@@ -92,7 +92,10 @@ class List extends Component {
               key={hero.id}
             >
               <Avatar
-                onClick={() =>  this.showSidePane(this.props.isShow) && this.selectedHero(hero.id)}
+                onClick={() =>
+                  this.showSidePane(this.props.isShow) &&
+                  this.selectedHero(hero.id)
+                }
                 src={hero.images.md}
                 name={hero.name}
                 size={120}
@@ -118,7 +121,7 @@ function mapToStateToProps(state) {
     loading: state.loading,
     heroes: state.heroes.slice(0, 20),
     isShow: state.isShow,
-    heroSelect: state.heroSelect,
+    heroSelect: state.heroSelect
   };
 }
 

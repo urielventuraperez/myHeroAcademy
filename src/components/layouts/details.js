@@ -12,7 +12,7 @@ class Details extends Component {
   }
 
   componentDidMount(){
-    this.props.getHero(14);
+    this.props.getHero(this.props.heroSelect);
   }
 
   render() {
@@ -52,7 +52,7 @@ class Details extends Component {
           </Card>
         </Pane>
         { this.props.hero.map( detail => (
-          <li>{ detail.name }</li>
+          <div key={ detail.id }><li>{ detail.name }</li></div>
         ) ) }
       </div>
     );
@@ -61,7 +61,8 @@ class Details extends Component {
 
 function mapStateToProps(state){
   return {
-    hero: state.hero
+    hero: state.hero,
+    heroSelect: state.heroSelect
   }
 }
 
