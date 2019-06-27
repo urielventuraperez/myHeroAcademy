@@ -1,4 +1,12 @@
-import { GET_HEROES, GET_HERO, LOAD_DATA, SHOW_DETAIL, HERO_SELECTED } from "../constants";
+import {
+  GET_HEROES,
+  GET_HERO,
+  LOAD_DATA,
+  SHOW_DETAIL,
+  HERO_SELECTED,
+  ADD_FAVORITE,
+  TOTAL_FAVORITES
+} from "../constants";
 
 const initialState = {
   heroes: [],
@@ -6,6 +14,8 @@ const initialState = {
   loading: false,
   isShow: false,
   heroSelect: "",
+  favorites: [],
+  sumFavorites: 0,
 };
 
 function reducer(state = initialState, action) {
@@ -18,9 +28,7 @@ function reducer(state = initialState, action) {
         isShow: !state.isShow
       };
     case HERO_SELECTED:
-        return {...state,
-            heroSelect: action.payload
-          }
+      return { ...state, heroSelect: action.payload };
     case GET_HEROES:
       return Object.assign(
         { ...state, loading: false },
@@ -36,6 +44,15 @@ function reducer(state = initialState, action) {
           hero: [...state.hero.concat(action.payload)]
         }
       );
+    case ADD_FAVORITE:
+      return Object.assign({}, state, {
+        favorites: state.favorites.concat(action.payload)
+      });
+    case TOTAL_FAVORITES:
+      return {
+        ...state,
+        sumFavorites: state.sumFavorites + 1
+      }
     default:
       return state;
   }

@@ -7,10 +7,11 @@ import {
   Spinner,
   Pane,
   Paragraph,
-  SideSheet
+  SideSheet,
+  Icon
 } from "evergreen-ui";
 import Details from "./details";
-import { getHeroes, showSidePane, selectedHero } from "../../redux/actions";
+import { getHeroes, showSidePane, selectedHero, addToFavorite, totalFavorites } from "../../redux/actions";
 import { connect } from "react-redux";
 import StarRatings from "react-star-ratings";
 import Capitalize from "../../utils";
@@ -52,6 +53,8 @@ class List extends Component {
   render() {
     this.showSidePane = this.props.showSidePane.bind(this);
     this.selectedHero = this.props.selectedHero.bind(this);
+    this.addToFavorite = this.props.addToFavorite.bind(this);
+    this.totalFavorites = this.props.totalFavorites.bind(this);
     return (
       <div>
         <SideSheet
@@ -91,6 +94,10 @@ class List extends Component {
               flexDirection="column"
               key={hero.id}
             >
+              <Pane alignSelf="end">
+                <Icon onClick={()=>this.addToFavorite(hero.id) && this.totalFavorites(this.props.sumFavorites)} icon="heart" color="disabled" marginRight={16} />
+              </Pane>
+
               <Avatar
                 onClick={() =>
                   this.showSidePane(this.props.isShow) &&
@@ -116,16 +123,17 @@ class List extends Component {
   }
 }
 
-function mapToStateToProps(state) {
+function mapStateToProps(state) {
   return {
     loading: state.loading,
     heroes: state.heroes,
     isShow: state.isShow,
-    heroSelect: state.heroSelect
+    heroSelect: state.heroSelect,
+    sumFavorites: state.sumFavorites,
   };
 }
 
 export default connect(
-  mapToStateToProps,
-  { getHeroes, showSidePane, selectedHero }
+  mapStateToProps,
+  { getHeroes, showSidePane, selectedHero, addToFavorite, totalFavorites }
 )(List);

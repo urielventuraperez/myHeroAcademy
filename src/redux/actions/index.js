@@ -3,7 +3,9 @@ import {
   GET_HERO,
   LOAD_DATA,
   SHOW_DETAIL,
-  HERO_SELECTED
+  HERO_SELECTED,
+  ADD_FAVORITE,
+  TOTAL_FAVORITES
 } from "../constants";
 
 export function getHeroes() {
@@ -44,4 +46,18 @@ export function showSidePane(payload) {
     type: SHOW_DETAIL,
     payload
   };
+}
+
+export function addToFavorite(payload) {
+  return{
+    type: ADD_FAVORITE,
+    payload
+  }
+}
+
+export function totalFavorites(payload){
+  return{
+    type: TOTAL_FAVORITES,
+    payload
+  }
 }
