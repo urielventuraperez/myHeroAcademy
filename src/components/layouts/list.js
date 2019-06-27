@@ -11,7 +11,13 @@ import {
   Icon
 } from "evergreen-ui";
 import Details from "./details";
-import { getHeroes, showSidePane, selectedHero, addToFavorite, totalFavorites } from "../../redux/actions";
+import {
+  getHeroes,
+  showSidePane,
+  selectedHero,
+  addToFavorite,
+  totalFavorites
+} from "../../redux/actions";
 import { connect } from "react-redux";
 import StarRatings from "react-star-ratings";
 import Capitalize from "../../utils";
@@ -51,15 +57,11 @@ class List extends Component {
   };
 
   render() {
-    this.showSidePane = this.props.showSidePane.bind(this);
-    this.selectedHero = this.props.selectedHero.bind(this);
-    this.addToFavorite = this.props.addToFavorite.bind(this);
-    this.totalFavorites = this.props.totalFavorites.bind(this);
     return (
       <div>
         <SideSheet
           isShown={this.props.isShow}
-          onCloseComplete={() => this.showSidePane(!this.props.isShow)}
+          onCloseComplete={() => this.props.showSidePane(!this.props.isShow)}
           containerProps={{
             display: "flex",
             flex: "1",
@@ -95,14 +97,22 @@ class List extends Component {
               key={hero.id}
             >
               <Pane alignSelf="end">
-                <Icon onClick={()=>this.addToFavorite(hero.id) && this.totalFavorites(this.props.sumFavorites)} icon="heart" color="disabled" marginRight={16} />
+                <Icon
+                  onClick={() => {
+                    this.props.addToFavorite(hero.id);
+                    this.props.totalFavorites(this.props.sumFavorites);
+                  }}
+                  icon="heart"
+                  color="disabled"
+                  marginRight={16}
+                />
               </Pane>
 
               <Avatar
-                onClick={() =>
-                  this.showSidePane(this.props.isShow) &&
-                  this.selectedHero(hero.id)
-                }
+                onClick={() => {
+                  this.props.showSidePane(this.props.isShow);
+                  this.props.selectedHero(hero.id);
+                }}
                 src={hero.images.md}
                 name={hero.name}
                 size={120}
@@ -123,17 +133,35 @@ class List extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    getHeroes: () => {
+      dispatch(getHeroes());
+    },
+    selectedHero: id => dispatch(selectedHero(id)),
+    showSidePane: () => {
+      dispatch(showSidePane());
+    },
+    addToFavorite: heroID => {
+      dispatch(addToFavorite(heroID));
+    },
+    totalFavorites: value => {
+      dispatch(totalFavorites(value));
+    }
+  };
+}
+
 function mapStateToProps(state) {
   return {
     loading: state.loading,
     heroes: state.heroes,
     isShow: state.isShow,
     heroSelect: state.heroSelect,
-    sumFavorites: state.sumFavorites,
+    sumFavorites: state.sumFavorites
   };
 }
 
 export default connect(
   mapStateToProps,
-  { getHeroes, showSidePane, selectedHero, addToFavorite, totalFavorites }
+  mapDispatchToProps
 )(List);
