@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Pane } from "evergreen-ui";
-import List from "./list";
+import List from "./container";
 
 class Home extends Component {
   render() {
