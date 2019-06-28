@@ -1,6 +1,7 @@
 import React from "react";
 import { Pane, Button, Heading, SearchInput, Pill } from "evergreen-ui";
 import { connect } from "react-redux";
+import { searchHero } from "../../redux/actions";
 
 const Menu = (state) => {
   return (
@@ -13,6 +14,7 @@ const Menu = (state) => {
           placeholder="Find your hero..."
           height={30}
           marginRight={16}
+          name="search"
         />
         <Button appearance="minimal" iconBefore="badge" marginRight={16}>
           All Heroes
@@ -20,7 +22,7 @@ const Menu = (state) => {
         <Button appearance="minimal" iconBefore="heart" marginRight={16}>
           My Favorites
           <Pill display="inline-flex" margin={8}>
-            { state.sumFavorites }
+            {state.sumFavorites}
           </Pill>
         </Button>
         <Button appearance="minimal" iconBefore="book" marginRight={16}>
@@ -32,10 +34,22 @@ const Menu = (state) => {
   );
 };
 
-const mapToStateToProps = state => {
-    return {
-        sumFavorites: state.sumFavorites
+const mapDispatchToProps = dispatch => {
+  return {
+    searchHero: () => {
+      dispatch(searchHero());
     }
+  };
 };
 
-export default connect(mapToStateToProps, {})(Menu);
+const mapStateToProps = state => {
+  return {
+    sumFavorites: state.sumFavorites,
+    heroSearch: state.heroSearch
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Menu);

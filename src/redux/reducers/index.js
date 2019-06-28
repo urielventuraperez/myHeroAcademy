@@ -5,7 +5,8 @@ import {
   SHOW_DETAIL,
   HERO_SELECTED,
   ADD_FAVORITE,
-  TOTAL_FAVORITES
+  TOTAL_FAVORITES,
+  SEARCH_HERO
 } from "../constants";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   heroSelect: "",
   favorites: [],
   sumFavorites: 0,
+  heroSearch: []
 };
 
 function reducer(state = initialState, action) {
@@ -44,6 +46,10 @@ function reducer(state = initialState, action) {
           hero: [...state.hero.concat(action.payload)]
         }
       );
+    case SEARCH_HERO:
+      return Object.assign({}, state, {
+        heroSearch: [...state.heroSearch.filter(item => item.name !== action.payload)]
+      });
     case ADD_FAVORITE:
       return Object.assign({}, state, {
         favorites: state.favorites.concat(action.payload)
@@ -52,7 +58,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         sumFavorites: state.sumFavorites + 1
-      }
+      };
     default:
       return state;
   }
