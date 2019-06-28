@@ -8,7 +8,8 @@ import {
   Pane,
   Paragraph,
   SideSheet,
-  Icon
+  Icon,
+  toaster
 } from "evergreen-ui";
 import Details from "./details";
 import {
@@ -26,6 +27,15 @@ const MAX_STAR_LEVEL = 5;
 const MAX_POWER_LEVEL = 100;
 
 class List extends Component {
+
+    constructor(){
+        super();
+        this.state = {
+            heroID: 0,
+            isFavorite: false,
+        }
+    }
+
   componentDidMount() {
     this.props.getHeroes();
   }
@@ -101,6 +111,11 @@ class List extends Component {
                   onClick={() => {
                     this.props.addToFavorite(hero.id);
                     this.props.totalFavorites(this.props.sumFavorites);
+                    toaster.notify(
+                        hero.name+" added to your favorites",{
+                            duration: 2
+                          }
+                      )
                   }}
                   icon="heart"
                   color="disabled"
@@ -142,8 +157,8 @@ function mapDispatchToProps(dispatch) {
     showSidePane: () => {
       dispatch(showSidePane());
     },
-    addToFavorite: heroID => {
-      dispatch(addToFavorite(heroID));
+    addToFavorite: hero => {
+      dispatch(addToFavorite(hero));
     },
     totalFavorites: value => {
       dispatch(totalFavorites(value));
