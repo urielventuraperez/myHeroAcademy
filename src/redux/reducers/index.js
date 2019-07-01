@@ -17,7 +17,8 @@ const initialState = {
   heroSelect: "",
   favorites: [],
   sumFavorites: 0,
-  heroSearch: []
+  heroSearchName: "",
+  searchResult: [],
 };
 
 function reducer(state = initialState, action) {
@@ -46,10 +47,14 @@ function reducer(state = initialState, action) {
           hero: [...state.hero.concat(action.payload)]
         }
       );
-    case SEARCH_HERO:
-      return Object.assign({}, state, {
-        heroSearch: [...state.heroSearch.filter(item => item.name !== action.payload)]
-      });
+    case SEARCH_HERO: {
+      const searchResult = state.heroes.filter((name) => name.includes(heroSearchName));
+      return { ...state, action, searchResult };
+    }
+    //return Object.assign({}, state, {
+    //heroSearchName: action.payload
+
+    //});
     case ADD_FAVORITE:
       return Object.assign({}, state, {
         favorites: state.favorites.concat(action.payload)

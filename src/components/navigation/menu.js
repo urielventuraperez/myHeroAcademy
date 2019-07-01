@@ -1,7 +1,7 @@
 import React from "react";
-import { Pane, Button, Heading, SearchInput, Pill } from "evergreen-ui";
+import { Pane, Button, Heading, Pill } from "evergreen-ui";
 import { connect } from "react-redux";
-import { searchHero } from "../../redux/actions";
+import Search from "../navigation/search";
 
 const Menu = (state) => {
   return (
@@ -10,12 +10,7 @@ const Menu = (state) => {
         <Heading size={600}>My Super Heroes</Heading>
       </Pane>
       <Pane>
-        <SearchInput
-          placeholder="Find your hero..."
-          height={30}
-          marginRight={16}
-          name="search"
-        />
+        <Search  />
         <Button appearance="minimal" iconBefore="badge" marginRight={16}>
           All Heroes
         </Button>
@@ -34,22 +29,13 @@ const Menu = (state) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    searchHero: () => {
-      dispatch(searchHero());
-    }
-  };
-};
 
 const mapStateToProps = state => {
   return {
     sumFavorites: state.sumFavorites,
-    heroSearch: state.heroSearch
   };
 };
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Menu);
