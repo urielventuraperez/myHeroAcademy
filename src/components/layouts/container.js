@@ -42,13 +42,17 @@ class Container extends Component {
           >
             <Spinner size={120} />
           </Pane>
+        ) : !this.props.heroResults.length ? (
+          <HeroesList
+            typing={false}
+            heroes={this.props.heroes}
+            showPane={this.props.isShow}
+            sumFavorites={this.props.sumFavorites}
+          />
         ) : (
           <HeroesList
-            heroes={
-              !this.props.heroResults.length
-                ? this.props.heroes
-                : this.props.heroResults
-            }
+            typing={true}
+            heroes={this.props.heroResults}
             showPane={this.props.isShow}
             sumFavorites={this.props.sumFavorites}
           />

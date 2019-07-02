@@ -17,7 +17,7 @@ export function getHeroes() {
       .then(json => {
         return dispatch({
           type: GET_HEROES,
-          payload: json/*.sort(() => 0.5 - Math.random())*/.slice(0, 30)
+          payload: json
         });
       });
   };
