@@ -6,9 +6,17 @@ import { getHeroes, showSidePane } from "../../redux/actions";
 import { connect } from "react-redux";
 
 class Container extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showHeroes: []
+    };
+  }
+
   componentDidMount() {
     this.props.getHeroes();
   }
+
   render() {
     return (
       <div>
@@ -36,7 +44,11 @@ class Container extends Component {
           </Pane>
         ) : (
           <HeroesList
-            heroes={this.props.heroes}
+            heroes={
+              !this.props.heroResults.length
+                ? this.props.heroes
+                : this.props.heroResults
+            }
             showPane={this.props.isShow}
             sumFavorites={this.props.sumFavorites}
           />
@@ -63,7 +75,8 @@ function mapStateToProps(state) {
     heroes: state.heroes,
     isShow: state.isShow,
     heroSelect: state.heroSelect,
-    sumFavorites: state.sumFavorites
+    sumFavorites: state.sumFavorites,
+    heroResults: state.heroResults
   };
 }
 

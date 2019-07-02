@@ -15,9 +15,8 @@ class Search extends Component {
 
   handleChange = async function(event) {
     await this.setState({ searchName: event.target.value });
-    console.log(this.state.searchName);
     const inputSearch = this.state.searchName;
-    this.props.searchHero({ inputSearch });
+    this.props.searchHero(inputSearch);
   };
 
   render() {
@@ -43,7 +42,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return{
-        searchHero: hero => dispatch(searchHero(hero))
+        searchHero: name => dispatch(searchHero(name))
     }
 }
 
